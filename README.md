@@ -1,4 +1,4 @@
-**yt_spam_remover** adalah tool untuk mendeteksi dan menghapus komentar spam dari channel YouTube. Alat ini menggunakan YouTube Data API V3 dan mendeteksi spam berdasarkan keyword dan pola umum dari komentar promosi, judi, atau bot.
+**YT Spam Remover** adalah tool untuk mendeteksi dan menghapus komentar spam dari channel YouTube. Alat ini menggunakan YouTube Data API V3 dan mendeteksi spam berdasarkan keyword dan pola umum dari komentar promosi, judi, atau bot.
 
 ---
 
