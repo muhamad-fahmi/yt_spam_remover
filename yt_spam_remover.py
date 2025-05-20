@@ -29,6 +29,15 @@ __ ((_)(_(_())  (_))  /(/(  )(_))  )\  ' (_)) /((_) )\  ' )\(_))\ /((_|()\
 """
     print(banner)
 
+# ------------------ Check Quota -------------------------
+def handle_quota_error(e):
+    if isinstance(e, HttpError) and e.resp.status == 403 and 'quotaExceeded' in str(e):
+        print(f"{Fore.RED}❌ Kuota API YouTube Anda telah habis!")
+        print("🔗 Silakan cek kuota di: https://console.cloud.google.com/apis/api/youtube.googleapis.com/quotas")
+        with open("error_log.txt", "a", encoding="utf-8") as f:
+            f.write("Kuota habis!\n")
+        return True
+    return False
 
 # ------------------ CHANNEL_ID --------------------------
 CHANNEL_ID_FILE = "channel_id.txt"
@@ -248,17 +257,36 @@ def main():
                 uploads_playlist_id = get_uploads_playlist_id(youtube, channel_id)
                 video_ids = get_all_video_ids(youtube, uploads_playlist_id)
             except Exception as e:
+                if handle_quota_error(e):
+                    break
                 print(f"❌ Gagal mengambil video: {e}")
                 continue
 
             for video_id in video_ids:
                 print(f"\n🔍 Mengecek komentar Video ID: {video_id}")
-                comments = get_comments(youtube, video_id, channel_id)
+                try:
+                    comments = get_comments(youtube, video_id, channel_id)
+                except Exception as e:
+                    if handle_quota_error(e):
+                        break
+                    print(f"❌ Gagal mengambil komentar: {e}")
+                    continue
+
+                if not comments:
+                    print("⚠️ Tidak ada komentar.")
+                    continue
+
                 for comment_id, text in comments:
                     print(f"💬 {text}")
                     if is_spam(text):
                         print("🚫 Deteksi spam!")
-                        delete_comment(youtube, comment_id)
+                        try:
+                            delete_comment(youtube, comment_id)
+                        except Exception as e:
+                            if handle_quota_error(e):
+                                break
+                            print(f"❌ Gagal menghapus komentar: {e}")
+
         elif pilihan == "2":
             manage_keywords()
         elif pilihan == "3":
