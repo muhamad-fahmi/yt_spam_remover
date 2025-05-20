@@ -1,0 +1,8 @@
+build/
+dist/
+*.spec
+__pycache__/
+*.py[cod]
+*.pkl
+token.pkl
+client_secret.json
