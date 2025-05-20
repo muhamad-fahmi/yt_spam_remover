@@ -30,8 +30,8 @@
     ```
 4. Tambahkan file kredensial YouTube:
 
-    - Buat project di [Google Cloud Console](https://console.cloud.google.com/apis/api/youtube.googleapis.com?inv=1&invt=Abx3fg)
-    - Aktifkan YouTube Data API v3
+    - Buat project di [Google Cloud Console](https://console.cloud.google.com/projectcreate)
+    - Aktifkan [YouTube Data API v3](https://console.cloud.google.com/apis/api/youtube.googleapis.com?inv=1&invt=Abx3fg)
     - Buat OAuth Client ID dan download `client_secret.json` pada "Credentials"
     - Letakkan file tersebut di folder utama proyek
 
